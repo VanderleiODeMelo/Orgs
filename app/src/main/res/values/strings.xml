@@ -6,4 +6,8 @@
     <string name="valor">Valor</string>
     <string name="salvar">Salvar</string>
     <string name="data">Data</string>
+    <string name="produto">Produto</string>
+    <string name="url_carregando_imagem">URL carregando imagem</string>
+    <string name="carregando">Carregando</string>
+    <string name="botao_carregar">Botao carregar</string>
 </resources>

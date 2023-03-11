@@ -10,6 +10,6 @@ class ListaProdutosActivity : AppCompatActivity() {
         setContentView(R.layout.activity_lista_produtos)
         title = "Orgs"
 
-        
+
     }
 }
