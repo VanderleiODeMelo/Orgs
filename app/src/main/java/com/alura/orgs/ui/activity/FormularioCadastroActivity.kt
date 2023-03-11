@@ -4,12 +4,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.alura.orgs.R
 
-class ListaProdutosActivity : AppCompatActivity() {
+class FormularioCadastroActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_lista_produtos)
-        title = "Orgs"
+        setContentView(R.layout.activity_formulario_cadastro)
+        title = "Formulário cadastro"
 
-        
+
     }
 }

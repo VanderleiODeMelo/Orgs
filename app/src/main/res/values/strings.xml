@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Orgs</string>
     <string name="inserir">Inserir</string>
+    <string name="nome">Nome</string>
+    <string name="descricao">Descrição</string>
+    <string name="valor">Valor</string>
+    <string name="salvar">Salvar</string>
+    <string name="data">Data</string>
 </resources>
