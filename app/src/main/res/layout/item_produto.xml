@@ -8,17 +8,13 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:checkable="true"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintBottom_toBottomOf="parent">
+
+
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -43,14 +39,14 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:ellipsize="end"
+                android:text="Frutasssssssssssssssssssssssss"
                 android:fontFamily="@font/montserrat_bold"
                 android:maxLines="1"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="7"
                 app:layout_constraintStart_toEndOf="@id/item_produto_imagemView"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Cesta de frutassssssssssssssssssss" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/item_produto_descricao"
