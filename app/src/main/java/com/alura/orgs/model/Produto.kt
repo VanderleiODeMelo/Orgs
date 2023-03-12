@@ -5,11 +5,10 @@ import java.util.*
 
 class Produto(
 
-    private val id: Long = 0L,
-    private val titulo: String,
-    private val descricao: String,
-    private val valor: BigDecimal,
-    private val data: Calendar,
-    private val imagem: String? = null
+     val id: Long = 0L,
+     val titulo: String,
+     val descricao: String,
+     val valor: BigDecimal,
+     val imagem: String? = null
 ) {
 }

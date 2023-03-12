@@ -8,10 +8,11 @@
 
     <ImageView
         android:id="@+id/formulario_cadastro_imagemView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="200dp"
         android:scaleType="centerCrop"
         android:src="@drawable/imagem_padrao"
+        android:contentDescription="@string/produto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,13 +24,13 @@
 
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="@string/nome"
+        android:hint="@string/titulo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/formulario_cadastro_imagemView">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEditText_campo_nome"
+            android:id="@+id/textInputEditText_campo_url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textCapWords" />
@@ -95,7 +96,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/formulario_cadastro_data"
+        android:id="@+id/formulario_cadastro_botao_salvar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
