@@ -22,5 +22,10 @@ class Dao {
         return listaProdutos.toList()
     }
 
+    fun remover(produto: Produto) {
+
+        listaProdutos.remove(produto)
+    }
+
 
 }

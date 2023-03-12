@@ -2,7 +2,6 @@ package com.alura.orgs.ui.adapter.recyclerview
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +12,12 @@ import com.alura.orgs.R
 import com.alura.orgs.databinding.ItemProdutoBinding
 import com.alura.orgs.model.Produto
 import com.alura.orgs.util.MoedaUtil.Companion.formatarMoedaBrasileira
-import java.text.NumberFormat
 import java.util.*
 
-class ListaProdutosAdapter(private val context: Context, listaProdutos: List<Produto>) :
+class ListaProdutosAdapter(
+    private val context: Context,
+    listaProdutos: List<Produto>, var listener: ClickProdutoListener
+) :
     Adapter<ListaProdutosAdapter.ProdutoViewHolder>() {
 
     private val lista = listaProdutos.toMutableList()
@@ -26,7 +27,7 @@ class ListaProdutosAdapter(private val context: Context, listaProdutos: List<Pro
 
         val binding = ItemProdutoBinding.inflate(LayoutInflater.from(context), parent, false)
 
-        return ProdutoViewHolder(binding)
+        return ProdutoViewHolder(binding, listener)
     }
 
     override fun getItemCount(): Int {
@@ -48,36 +49,44 @@ class ListaProdutosAdapter(private val context: Context, listaProdutos: List<Pro
 
     }
 
-    class ProdutoViewHolder(binding: ItemProdutoBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ProdutoViewHolder(binding: ItemProdutoBinding,private val listener: ClickProdutoListener) :
+        RecyclerView.ViewHolder(binding.root) {
 
         private val titulo = binding.itemProdutoTitulo
         private val descricao = binding.itemProdutoDescricao
         private val valor = binding.itemProdutoValor
-        private  val imagem =  binding.itemProdutoImagemView
+        private val imagem = binding.itemProdutoImagemView
+
+        private lateinit var produto: Produto
 
         fun vincular(produto: Produto) {
 
+            this.produto = produto
             titulo.text = produto.titulo
             descricao.text = produto.descricao
             val valorFormatado = formatarMoedaBrasileira(produto)
             valor.text = valorFormatado
 
-            if(produto.imagem != null){
+            if (produto.imagem != null) {
 
                 imagem.visibility = View.VISIBLE
 
-            }else{
+            } else {
 
                 imagem.visibility = View.GONE
             }
-            imagem.load(produto.imagem){
+            imagem.load(produto.imagem) {
                 error(R.drawable.erro)
             }
-
         }
 
+        init {
 
+            binding.root.setOnClickListener(View.OnClickListener {
 
+                listener.onItemClickListener(produto = produto, adapterPosition)
+            })
+        }
     }
 
 }
