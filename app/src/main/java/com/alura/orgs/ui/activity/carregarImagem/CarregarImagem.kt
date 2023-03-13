@@ -5,9 +5,14 @@ import coil.load
 import com.alura.orgs.R
 
 
-fun ImageView.tentaCarregarImagemView(url: String?) {
+fun ImageView.tentaCarregarImagemView(
+    url: String? = null,
+    fallback: Int = R.drawable.imagem_padrao
+) {
     load(url) {
-        error(R.drawable.erro)
+
+        fallback(fallback)
         placeholder(R.drawable.placeholder_carregamento_dialog)
+        error(R.drawable.erro)
     }
 }

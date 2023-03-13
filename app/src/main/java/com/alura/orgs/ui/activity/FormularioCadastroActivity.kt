@@ -3,71 +3,107 @@ package com.alura.orgs.ui.activity
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.alura.orgs.dao.Dao
+import com.alura.orgs.database.OrgsDataBase
 import com.alura.orgs.databinding.ActivityFormularioCadastroBinding
 import com.alura.orgs.model.Produto
 import com.alura.orgs.ui.activity.carregarImagem.tentaCarregarImagemView
+import com.alura.orgs.ui.activity.constantes.CHAVE_PRODUTO_ID
 import com.alura.orgs.ui.activity.dialog.FormularioImagemDialog
 import java.math.BigDecimal
 
 class FormularioCadastroActivity : AppCompatActivity() {
 
-    val binding by lazy {
+    private val binding by lazy {
         ActivityFormularioCadastroBinding.inflate(layoutInflater)
+    }
+    private val produtoDao by lazy {
+
+        OrgsDataBase.instance(this).produtoDao()
     }
     var url: String? = null
     private var produtoId: Long = 0L
-    private val dao = Dao()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         title = "Formulário cadastro"
         configurarBotaoSalvar()
+        listenerCarregarImagemDialog()
+        idProduto()
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        tentaBuscarProduto()
+
+    }
+
+    private fun tentaBuscarProduto() {
+        val produto = produtoDao.buscaPorId(produtoId)
+
+        produto?.let {
+            preencheCampos(it)
+        }
+    }
+
+    private fun idProduto() {
+        produtoId = intent.getLongExtra(CHAVE_PRODUTO_ID, 0L)
+    }
+
+    private fun preencheCampos(produto: Produto) {
+
+        produtoId = produto.id
+        title = "Altera produto"
+        url = produto.imagem
+        binding.formularioCadastroImagemView.tentaCarregarImagemView(produto.imagem)
+        binding.textInputEditTextCampoUrl.setText(produto.titulo)
+        binding.textInputEditTextCampoDescricao.setText(produto.descricao)
+        binding.textInputEditTextCampoValor.setText(produto.valor.toPlainString())
+    }
+
+    private fun listenerCarregarImagemDialog() {
         binding.formularioCadastroImagemView.setOnClickListener(View.OnClickListener {
 
 
-                FormularioImagemDialog(this).mostra(url) { imagem ->
+            FormularioImagemDialog(this).mostra(url) { imagem ->
 
-                    url = imagem
-                    binding.formularioCadastroImagemView.tentaCarregarImagemView(url)
-                }
-
-
+                url = imagem
+                binding.formularioCadastroImagemView.tentaCarregarImagemView(url)
+            }
         })
     }
-
 
     private fun configurarBotaoSalvar() {
-        binding.formularioCadastroBotaoSalvar.setOnClickListener(View.OnClickListener {
 
+        val botaoSalvar = binding.formularioCadastroBotaoSalvar
 
-            val titulo = binding.textInputEditTextCampoUrl.text.toString()
-            val decricao = binding.textInputEditTextCampoDescricao.text.toString()
-            val valorEmTexto = binding.textInputEditTextCampoValor.text.toString()
-            val data = binding.textInputEditTextCampoData.text.toString()
+        botaoSalvar.setOnClickListener(View.OnClickListener {
 
-            val valor = if (valorEmTexto.isBlank()) {
-
-                BigDecimal.ZERO
-            } else {
-                BigDecimal(valorEmTexto)
-            }
-
-            val produto = criarProduto(titulo, decricao, valor, url)
-            dao.salvar(produto).apply { finish() }
+            val produto = criarProduto()
+            produtoDao.salvar(produto)
+            finish()
         })
+
+
     }
 
-    private fun criarProduto(
-        titulo: String,
-        decricao: String,
-        valor: BigDecimal, url: String?
-    ) = Produto(
-        produtoId,
-        titulo = titulo,
-        descricao = decricao,
-        valor = valor,
-        imagem = url
-    )
+    private fun criarProduto(): Produto {
+
+        val titulo = binding.textInputEditTextCampoUrl.text.toString()
+        val decricao = binding.textInputEditTextCampoDescricao.text.toString()
+        val valorEmTexto = binding.textInputEditTextCampoValor.text.toString()
+        val data = binding.textInputEditTextCampoData.text.toString()
+
+        val valor = if (valorEmTexto.isBlank()) {
+
+            BigDecimal.ZERO
+        } else {
+            BigDecimal(valorEmTexto)
+        }
+        return Produto(produtoId, titulo = titulo, descricao = decricao, valor = valor, url)
+
+    }
+
 }

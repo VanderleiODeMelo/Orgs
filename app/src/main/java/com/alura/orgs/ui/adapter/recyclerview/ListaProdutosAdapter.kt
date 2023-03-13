@@ -84,7 +84,7 @@ class ListaProdutosAdapter(
 
             binding.root.setOnClickListener(View.OnClickListener {
 
-                listener.onItemClickListener(produto = produto, adapterPosition)
+                listener.onItemClickListener(produto = produto)
             })
         }
     }

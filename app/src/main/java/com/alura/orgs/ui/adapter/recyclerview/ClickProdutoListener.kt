@@ -4,5 +4,5 @@ import com.alura.orgs.model.Produto
 
 interface ClickProdutoListener {
 
-    fun onItemClickListener(produto: Produto,posicao:Int)
+    fun onItemClickListener(produto: Produto)
 }

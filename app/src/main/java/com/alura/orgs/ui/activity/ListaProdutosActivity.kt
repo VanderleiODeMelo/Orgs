@@ -3,15 +3,17 @@ package com.alura.orgs.ui.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.alura.orgs.dao.Dao
+import androidx.room.Room
+import com.alura.orgs.database.OrgsDataBase
 import com.alura.orgs.databinding.ActivityListaProdutosBinding
 import com.alura.orgs.model.Produto
+import com.alura.orgs.ui.activity.constantes.CHAVE_PRODUTO_ID
 import com.alura.orgs.ui.adapter.recyclerview.ClickProdutoListener
 import com.alura.orgs.ui.adapter.recyclerview.ListaProdutosAdapter
-import java.math.BigDecimal
 
 class ListaProdutosActivity : AppCompatActivity(), ClickProdutoListener {
 
@@ -20,10 +22,13 @@ class ListaProdutosActivity : AppCompatActivity(), ClickProdutoListener {
 
         ActivityListaProdutosBinding.inflate(layoutInflater)
     }
-    private val dao = Dao()
     private val adapter by lazy {
 
-        ListaProdutosAdapter(context = this, dao.buscaTodosProdutos(), listener = this)
+        ListaProdutosAdapter(context = this, emptyList(), listener = this)
+    }
+    private val produtoDao by lazy {
+
+        OrgsDataBase.instance(this).produtoDao()
     }
 
     @SuppressLint("ResourceType")
@@ -38,8 +43,6 @@ class ListaProdutosActivity : AppCompatActivity(), ClickProdutoListener {
         binding.listaProdutosRecyclerview.layoutManager = layoutManager
         binding.listaProdutosRecyclerview.adapter = adapter
 
-        dao.salvar(Produto(0, "Titulo 1", "Descrição 1", BigDecimal("1500")))
-
 
     }
 
@@ -53,17 +56,21 @@ class ListaProdutosActivity : AppCompatActivity(), ClickProdutoListener {
 
     override fun onResume() {
         super.onResume()
-        adapter.atualizarLista(dao.buscaTodosProdutos())
+
+        adapter.atualizarLista(produtoDao.buscarTodosProdutos())
     }
 
-    override fun onItemClickListener(produto: Produto, posicao: Int) {
+    override fun onItemClickListener(produto: Produto) {
 
-        val intent = Intent(this, DetalheProdutoActivity::class.java)
+         Intent(this, DetalheProdutoActivity::class.java)
             .apply {
 
-                putExtra("produto", produto)
-                putExtra("posicao", posicao)
+                putExtra(CHAVE_PRODUTO_ID, produto.id)
+
+                Log.i("TAG", "onItemClickListener: ${produto.titulo}")
+                startActivity(this)
             }
-        startActivity(intent)
+
+
     }
 }
