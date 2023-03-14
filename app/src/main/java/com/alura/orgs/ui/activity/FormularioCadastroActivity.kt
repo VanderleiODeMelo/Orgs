@@ -81,8 +81,13 @@ class FormularioCadastroActivity : AppCompatActivity() {
 
         botaoSalvar.setOnClickListener(View.OnClickListener {
 
+            binding.detalheProdutoContentLoadingProgressBar.show()//vai aparecer
+
             val produto = criarProduto()
             produtoDao.salvar(produto)
+
+            binding.detalheProdutoContentLoadingProgressBar.hide()//vai esconder
+            
             finish()
         })
 

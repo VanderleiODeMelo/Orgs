@@ -5,9 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.alura.orgs.database.OrgsDataBase
 import com.alura.orgs.databinding.ActivityListaProdutosBinding
 import com.alura.orgs.model.Produto
@@ -39,11 +40,35 @@ class ListaProdutosActivity : AppCompatActivity(), ClickProdutoListener {
         title = "Orgs"
         configurarFab()
 
+        configuraRecyclerview()
+
+        val refreshLayout = binding.listaProdutosAdicionarSwipeRefreshLayout
+        binding.listaProdutosAdicionarSwipeRefreshLayout.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+
+            val listaProdutos = produtoDao.buscarTodosProdutos()
+
+            refreshLayout.isRefreshing = false
+            adapter.atualizarLista(listaProdutos)
+            Toast.makeText(this,
+                "Lista atualizada com sucesso !",
+                Toast.LENGTH_SHORT).show()
+        })
+
+    }
+
+    private fun configuraRecyclerview() {
+
+        configuraLayoutManager()
+        configuraAdapter()
+    }
+
+    private fun configuraAdapter() {
+        binding.listaProdutosRecyclerview.adapter = adapter
+    }
+
+    private fun configuraLayoutManager() {
         val layoutManager = LinearLayoutManager(this)
         binding.listaProdutosRecyclerview.layoutManager = layoutManager
-        binding.listaProdutosRecyclerview.adapter = adapter
-
-
     }
 
     private fun configurarFab() {
@@ -66,11 +91,7 @@ class ListaProdutosActivity : AppCompatActivity(), ClickProdutoListener {
             .apply {
 
                 putExtra(CHAVE_PRODUTO_ID, produto.id)
-
-                Log.i("TAG", "onItemClickListener: ${produto.titulo}")
                 startActivity(this)
             }
-
-
     }
 }

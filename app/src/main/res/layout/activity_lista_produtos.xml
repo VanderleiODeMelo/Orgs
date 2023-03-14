@@ -6,15 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.ListaProdutosActivity">
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/lista_produtos_adicionar_swipeRefreshLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lista_produtos_recyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         tools:listitem="@layout/item_produto"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+         />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/lista_produtos_adicionar_fab"
